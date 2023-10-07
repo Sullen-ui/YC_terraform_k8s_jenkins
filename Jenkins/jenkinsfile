@@ -9,6 +9,7 @@ pipeline {
         stage('Run Script') {
             steps {
                 script {
+                    sh 'chmod +x ./Jenkins/script.sh'
                     def response = sh(script: './Jenkins/script.sh', returnStatus: true)
                     if (response == 0) {
                         currentBuild.result = 'SUCCESS'
