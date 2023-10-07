@@ -5,7 +5,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-URL=$1
+URL="https://httpbin.org/status/"
 RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
 
 if [ $RESPONSE_CODE -eq 200 ]; then
