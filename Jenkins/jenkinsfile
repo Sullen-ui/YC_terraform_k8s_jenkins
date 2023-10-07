@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+    stages {
+        stage('Pull Script from Git') {
+            steps {
+                git(url: 'https://github.com/Sullen-ui/YC_terraform_k8s_jenkins.git', branch: 'master')
+            }
+        }
+        stage('Run Script') {
+            steps {
+                script {
+                    def response = sh(script: './Jenkins/script.sh', returnStatus: true)
+                    if (response == 0) {
+                        currentBuild.result = 'SUCCESS'
+                    } else {
+                        currentBuild.result = 'FAILURE'
+                    }
+                }
+            }
+        }
+        stage('Send Email') {
+            steps {
+                emailext(
+                    subject: 'Результат выполнения Jenkins Job',
+                    body: 'Результат: ${currentBuild.result}',
+                    recipientProviders: [[$class: 'CulpritsRecipientProvider']]
+                )
+            }
+        }
+    }
+}
