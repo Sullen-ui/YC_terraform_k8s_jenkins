@@ -9,7 +9,7 @@ pipeline {
         stage('Run Script') {
             steps {
                 script {
-                    def response = sh(script: './Jenkins/script.sh', returnStatus: true)
+                    def response = sudo sh(script: './Jenkins/script.sh', returnStatus: true)
                     if (response == 0) {
                         currentBuild.result = 'SUCCESS'
                     } else {
