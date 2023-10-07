@@ -1,0 +1,5 @@
+key.json
+terraform/.terraform/
+terraform/provider.tf
+terraform/.terraform*
+terraform/terraform.tfstate
