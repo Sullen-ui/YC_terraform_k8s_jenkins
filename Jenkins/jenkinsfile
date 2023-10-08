@@ -25,10 +25,10 @@ pipeline {
             steps {
                 emailext(
                     subject: "Результат выполнения Jenkins Job: ${currentBuild.number}",
-                    body: "Результат: ${currentBuild.result}/n
-                           Пайплайн был запущен в : ${currentBuild.startTimeInMillis}/n
-                           Продолжительность сборки:${currentBuild.durationInMillis}/n
-                           Имя агента: ${currentBuild.builtOn}/n",
+                    body: "Результат: ${currentBuild.result}\\n
+                           Пайплайн был запущен в : ${currentBuild.startTimeInMillis}\\n
+                           Продолжительность сборки:${currentBuild.durationInMillis}\\n
+                           Имя агента: ${currentBuild.builtOn}",
                     recipientProviders: [[$class: 'DevelopersRecipientProvider']],
                     to: "fmj.kronus777@gmail.com"
         
