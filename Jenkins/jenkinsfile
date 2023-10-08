@@ -13,8 +13,10 @@ pipeline {
                     def result = sh(script: './Jenkins/script.sh https://httpbin.org/status/200,500', returnStatus: true)
                     def responseCode = result.returnStatus
                     if (responseCode == 0) {
+                        currentBuild.result = 'SUCCESS'
                         result = 'SUCCESS. Скрипт отработал и вернул HTTP-статус: 200'
                     } else {
+                        currentBuild.result = 'FAILURE'
                         result = 'FAILURE. Скрипт отработал и вернул HTTP-статус: 500'
                     }
 
@@ -25,11 +27,11 @@ pipeline {
             steps {
                 emailext(
                     subject: "Результат выполнения Jenkins Job: ${currentBuild.number}",
-                    body: """Результат: ${currentBuild.result}\\n"""
-                            echo "Результат скрипта: ${result}"
-                        """Пайплайн был запущен в : ${currentBuild.startTimeInMillis}\\n
-                           Продолжительность сборки:${currentBuild.durationInMillis}\\n
-                           Имя агента: ${currentBuild.builtOn}""",
+                    body: """Результат: ${currentBuild.result}\\n
+                             Результат скрипта: ${result}"
+                             Пайплайн был запущен в : ${currentBuild.startTimeInMillis}\\n
+                             Продолжительность сборки:${currentBuild.durationInMillis}\\n
+                             Имя агента: ${currentBuild.builtOn}""",
                     recipientProviders: [[$class: 'DevelopersRecipientProvider']],
                     to: "fmj.kronus777@gmail.com"
         
