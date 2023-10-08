@@ -25,7 +25,7 @@ pipeline {
                     subject: "Результат выполнения Jenkins Job: ${currentBuild.result}",
                     body: "Результат: ${currentBuild.result}",
                     recipientProviders: [[$class: 'DevelopersRecipientProvider']],
-                    recipientList: "$DEFAULT_RECIPIENTS"
+                    to: "fmj.kronus777@gmail.com"
                 )
             }
         }
