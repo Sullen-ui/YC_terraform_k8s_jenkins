@@ -30,7 +30,7 @@ pipeline {
                              Результат скрипта: ${out}\\n
                              Пайплайн был запущен в : ${currentBuild.startTimeInMillis}\\n
                              Продолжительность сборки:${currentBuild.duration}\\n
-                             Имя агента: ${currentBuild.builtOn}""",
+                             Имя агента: ${env.NODE_NAME}""",
                     recipientProviders: [[$class: 'DevelopersRecipientProvider']],
                     to: "fmj.kronus777@gmail.com"
         
