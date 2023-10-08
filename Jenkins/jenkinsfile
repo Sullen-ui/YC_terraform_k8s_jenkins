@@ -28,7 +28,7 @@ pipeline {
                     subject: "Результат выполнения Jenkins Job: ${currentBuild.number}",
                     body: """Результат: ${currentBuild.result}\\n
                              Результат скрипта: ${out}\\n
-                             Пайплайн был запущен в : ${currentBuild.startTime}\\n
+                             Пайплайн был запущен в : ${currentBuild.startTimeInMillis}\\n
                              Продолжительность сборки:${currentBuild.duration}\\n
                              Имя агента: ${currentBuild.builtOn}""",
                     recipientProviders: [[$class: 'DevelopersRecipientProvider']],
