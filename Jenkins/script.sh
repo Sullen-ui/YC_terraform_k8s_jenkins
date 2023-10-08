@@ -8,8 +8,8 @@ fi
 URL=$1
 RESPONSE_CODE=$(curl -s -o /dev/null -w "%{http_code}" "$URL")
 
-if [ "$RESPONSE_CODE" -eq 200 ]; then
-    echo "success. Return 200"
+if [ $RESPONSE_CODE -eq 200 ]; then
+    echo "success"
     exit 0
 else
     echo "failure. Response status code = $RESPONSE_CODE"
