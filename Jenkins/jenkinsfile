@@ -17,6 +17,7 @@ pipeline {
                     } else {
                         result = 'FAILURE. Скрипт отработал и вернул HTTP-статус: 500'
                     }
+
                 }
             }
         }
@@ -24,9 +25,9 @@ pipeline {
             steps {
                 emailext(
                     subject: "Результат выполнения Jenkins Job: ${currentBuild.number}",
-                    body: """Результат: ${currentBuild.result}\\n
-                            ${result}\\n
-                           Пайплайн был запущен в : ${currentBuild.startTimeInMillis}\\n
+                    body: """Результат: ${currentBuild.result}\\n"""
+                            echo "Результат скрипта: ${result}"
+                        """Пайплайн был запущен в : ${currentBuild.startTimeInMillis}\\n
                            Продолжительность сборки:${currentBuild.durationInMillis}\\n
                            Имя агента: ${currentBuild.builtOn}""",
                     recipientProviders: [[$class: 'DevelopersRecipientProvider']],
