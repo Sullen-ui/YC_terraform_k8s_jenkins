@@ -10,9 +10,11 @@ pipeline {
             steps {
                 script {
                     sh 'chmod +x ./Jenkins/script.sh'
-                    def response = sh(script: './Jenkins/script.sh https://httpbin.org/status/200,400,500', returnStatus: true)
-                    if (response == 0) {
-                        currentBuild.result = 'SUCCESS'
+                    def result = sh(script: './Jenkins/script.sh https://httpbin.org/status/200,400,500', returnStatus: true, returnStdout: true)
+                    def responseCode = result.returnStatus
+                    def scriptOutput = result.stdout.trim()
+                    if (result.responseCode == 0) {
+                        currentBuild.result = "SUCCESS. Скрипт отработал и вернул HTTP-статус: $scriptOutput"
                     } else {
                         currentBuild.result = 'FAILURE'
                     }
@@ -22,10 +24,14 @@ pipeline {
         stage('Send Email') {
             steps {
                 emailext(
-                    subject: "Результат выполнения Jenkins Job: ${currentBuild.result}",
-                    body: "Результат: ${currentBuild.result}",
+                    subject: "Результат выполнения Jenkins Job: ${currentBuild.number}",
+                    body: "Результат: ${currentBuild.result}/n
+                           Пайплайн был запущен в : ${currentBuild.startTimeInMillis}/n
+                           Продолжительность сборки:${currentBuild.durationInMillis}/n
+                           Имя агента: ${currentBuild.builtOn}/n",
                     recipientProviders: [[$class: 'DevelopersRecipientProvider']],
                     to: "fmj.kronus777@gmail.com"
+        
                 )
             }
         }
