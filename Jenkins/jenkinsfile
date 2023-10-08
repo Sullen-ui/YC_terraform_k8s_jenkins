@@ -11,8 +11,7 @@ pipeline {
                 script {
                     sh 'chmod +x ./Jenkins/script.sh'
                     def result = sh(script: './Jenkins/script.sh https://httpbin.org/status/200,500', returnStatus: true)
-                    def responseCode = result.returnStatus
-                    if (responseCode == 0) {
+                    if (result == 0) {
                         currentBuild.result = 'SUCCESS'
                         result = 'SUCCESS. Скрипт отработал и вернул HTTP-статус: 200'
                     } else {
