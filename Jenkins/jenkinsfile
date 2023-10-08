@@ -13,7 +13,7 @@ pipeline {
                     def result = sh(script: './Jenkins/script.sh https://httpbin.org/status/200,400,500', returnStatus: true, returnStdout: true)
                     def responseCode = result.returnStatus
                     def scriptOutput = result.stdout.trim()
-                    if (result.responseCode == 0) {
+                    if (responseCode == 0) {
                         currentBuild.result = "SUCCESS. Скрипт отработал и вернул HTTP-статус: $scriptOutput"
                     } else {
                         currentBuild.result = 'FAILURE'
