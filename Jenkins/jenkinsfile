@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     sh 'chmod +x ./Jenkins/script.sh'
-                    def response = sh(script: './Jenkins/script.sh', returnStatus: true)
+                    def response = sh(script: './Jenkins/script.sh https://httpbin.org/status/200,400,500', returnStatus: true)
                     if (response == 0) {
                         currentBuild.result = 'SUCCESS'
                     } else {
@@ -22,9 +22,10 @@ pipeline {
         stage('Send Email') {
             steps {
                 emailext(
-                    subject: 'Результат выполнения Jenkins Job',
-                    body: 'Результат: ${currentBuild.result}',
-                    to: 'maorlov.it@gmail.com'
+                    subject: "Результат выполнения Jenkins Job: ${currentBuild.result}",
+                    body: "Результат: ${currentBuild.result}",
+                    recipientProviders: [[$class: 'DevelopersRecipientProvider']],
+                    recipientList: "$DEFAULT_RECIPIENTS"
                 )
             }
         }
